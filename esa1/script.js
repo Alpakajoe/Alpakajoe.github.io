@@ -1,14 +1,16 @@
 window.onload = () => {
     let rotationAngle = 0;
-    let rotationInterval;
+    leng;
     let characterAnimationStep = 1;
     const imageArray = [];
     const moon = document.getElementById('moon');
     const character = document.getElementById('character');
   
+    // to choose the correct image, the angle/step will increase 
     const getMoonImagePath = (angle) => (`resources/moon-${angle}-degree.png`);
     const getCharacterImagePath = (step) => (`resources/character-${step}.png`);
 
+    // function to load all images to avoid stagnation 
     function loadImages() {
         for (let i = 0; i < 30; i++) {
             let image = new Image();
@@ -16,7 +18,6 @@ window.onload = () => {
             imageArray.push(image);
         }
     }
-
     loadImages();
 
     setInterval(() => {
@@ -25,11 +26,11 @@ window.onload = () => {
     }, 200);
 
     const stopRotation = () => {
-        clearInterval(rotationInterval);
-        rotationInterval = undefined;
+        clearInterval(rotatingInterval);
+    ng = undefined;
     };
 
-    const rotate = (clockwise) => {
+    const rotateImage = (clockwise) => {
         if (clockwise) {
             rotationAngle += 12;
             if (rotationAngle >= 360) {
@@ -45,30 +46,27 @@ window.onload = () => {
         moon.setAttribute('src', getMoonImagePath(rotationAngle));
     };
 
-    const continuousRotation = () => {
-        rotationInterval = setInterval(() => {
-            rotate(true);
+    const rotateContinuosly = () => {
+        rotatingInterval = setInterval(() => {
+            rotateImage(true);
         }, 80);
     }
 
     window.onkeydown = ((event) => {
-        if (event.key === 'c') {
-            if (!rotationInterval) {
-                continuousRotation();
+        if (event.key === 'a') {
+            if (!rotatingInterval) {
+                rotateContinuosly();
                 return;
             }
-
             stopRotation();
             return;
         }
-
         if (event.key === 'r') {
-          rotate(true);
+          rotateImage(true);
           return;
-        }
-    
+        }    
         if (event.key === 'l') {
-          rotate(false);
+          rotateImage(false);
         }
       });
 } 
