@@ -4,7 +4,7 @@ canvas.height = canvas.clientHeight;
 const gl = canvas.getContext('experimental-webgl');
 
 // pipeline setup
-gl.clearColor(0, 0, 0, 0);
+gl.clearColor(0.2, 0.2, 0.2, 0);
 
 // compile a vertex shader
 const vsSource = 'attribute vec2 pos;'
@@ -14,7 +14,7 @@ gl.shaderSource(vs, vsSource);
 gl.compileShader(vs);
 
 // compile a fragment shader
-let fsSource = 'void main() { gl_FragColor = vec4(1, 1, 1, 1); }';
+let fsSource = 'void main() { gl_FragColor = vec4(1); }';
 const fs = gl.createShader(gl.FRAGMENT_SHADER);
 gl.shaderSource(fs, fsSource);
 gl.compileShader(fs);
@@ -35,7 +35,7 @@ gl.compileShader(fs);
         0.10, 0.28,
         0.54, 0.61,
         0.91, 0.68,
-        1, 0.43,
+        0.98, 0.43,
         0.87, 0.27,
         0.78, -0.01,
         0.49, 0.03,
@@ -52,7 +52,7 @@ gl.compileShader(fs);
         -0.49, 0.03,
         -0.78, -0.01,
         -0.87, 0.27,
-        -1, 0.43,
+        -0.98, 0.43,
         -0.91, 0.68,
         -0.54, 0.61,
         -0.10, 0.28,
@@ -67,7 +67,7 @@ gl.compileShader(fs);
         0.10, 0.28,
         0.64, 0.31,
         0.54, 0.61,
-        1, 0.43,
+        0.98, 0.43,
         0.54, 0.61,
         0.87, 0.27,
         0.64, 0.31,
@@ -97,7 +97,7 @@ gl.compileShader(fs);
         -0.10, 0.28,
         -0.64, 0.31,
         -0.54, 0.61,
-        -1, 0.43,
+        -0.98, 0.43,
         -0.54, 0.61,
         -0.87, 0.27,
         -0.64, 0.31,
