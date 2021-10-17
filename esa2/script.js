@@ -3,7 +3,7 @@ canvas.width = canvas.clientWidth;
 canvas.height = canvas.clientHeight;
 const gl = canvas.getContext('experimental-webgl');
 
-// pipeline setup
+// pipeline setup + set background color 
 gl.clearColor(0.2, 0.2, 0.2, 0);
 
 // compile a vertex shader
@@ -13,7 +13,7 @@ const vs = gl.createShader(gl.VERTEX_SHADER);
 gl.shaderSource(vs, vsSource);
 gl.compileShader(vs);
 
-// compile a fragment shader
+// compile a fragment shader + set line color
 let fsSource = 'void main() { gl_FragColor = vec4(1); }';
 const fs = gl.createShader(gl.FRAGMENT_SHADER);
 gl.shaderSource(fs, fsSource);
@@ -124,13 +124,13 @@ gl.compileShader(fs);
     gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
     gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
 
-// Bind vertex buffer to attribute variable
+// bind vertex buffer to attribute variable
     const posAttrib = gl.getAttribLocation(prog, 'pos');
     gl.vertexAttribPointer(posAttrib, 2, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(posAttrib);
 
-// Clear framebuffer and render primitives
+// clear framebuffer and render primitives
     gl.clear(gl.COLOR_BUFFER_BIT);
-    gl.drawArrays(gl.LINE_LOOP, 0, vertices.length / 2);
+    gl.drawArrays(gl.LINE_STRIP, 0, vertices.length / 2);
 
 
