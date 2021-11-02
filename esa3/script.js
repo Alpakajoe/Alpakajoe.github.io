@@ -75,7 +75,7 @@ const gl = canvas.getContext('experimental-webgl');
 
         0, 0.24,
         -0.12, 0.19,
-        0.12, 0.19, // eigentlich deine 15
+        0.12, 0.19, 
 
         0, 0.13,
         0.12, 0.19,
