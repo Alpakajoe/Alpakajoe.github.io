@@ -1,0 +1,29 @@
+.button-box {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 100px;
+    position: absolute;    
+    right: 500px;
+    top: 500px;
+}
+
+.button-box>* {
+    margin-bottom: 5px;    
+    font-family: 'Montserrat';
+    font-weight: lighter;
+    background-color: rgb(81, 102, 79);
+    color: rgb(255, 255, 255);
+    width: 100%;
+    padding: 0.45rem;    
+    border-top-color: rgb(22, 22, 22);
+    border-left-color: rgb(202, 143, 170);    
+    box-shadow: 0 1px 7px 0 rgb(0, 0, 0);
+}
+
+.button-box> :last-child {
+    margin-right: 0;
+}
+
+div {
+    box-sizing: border-box;
+}
