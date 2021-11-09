@@ -25,5 +25,3 @@ function addEvent(el, eventType, handler) {
       el['on' + eventType] = handler;
   }
 }
-
-
