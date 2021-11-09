@@ -7,6 +7,9 @@ canvas.height = canvas.clientHeight;
 
 const gl = canvas.getContext('experimental-webgl');
 
+// pipeline setup + set background color 
+gl.clearColor(0.2, 0.2, 0.2, 0);
+
 // Backface culling
 gl.frontFace(gl.CCW);
 gl.enable(gl.CULL_FACE);
@@ -54,6 +57,9 @@ gl.bindAttribLocation(prog, 0, 'pos');
 gl.linkProgram(prog);
 gl.useProgram(prog);
 
+
+// Enneper
+
 const {
   enneperVertices, enneperIndicesLines, enneperIndicesTriangles,
 } = createenneperSurfaceVertexData();
@@ -82,17 +88,17 @@ const enneperIboTriangles = createIBO(enneperIndicesTriangles);
 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 const enneperLinesColor = {
-  r: 0.8, g: 0.66, b: 0.6, a: 1,
+  r: 0.7, g: 0.4, b: 0.5, a: 1,
 };
 
 const enneperTrianglesColor = {
-  r: 0.7, g: 0.4, b: 0.5, a: 1,
+  r: 0.8, g: 0.66, b: 0.6, a: 1,
 };
 
 setupIboRendering(colAttrib, enneperIboTriangles, gl.TRIANGLES, enneperTrianglesColor);
 setupIboRendering(colAttrib, enneperIboLines, gl.LINES, enneperLinesColor);
 
-///////////////////////////// TORUS ///////////////////////////////
+// Torus
 
 const { torusVertices, torusIndicesLines, torusIndicesTriangles } = createTorusVertexData();
 
