@@ -1,3 +1,5 @@
+window.onload = () => {
+
 const canvas = document.getElementById('canvas');
 canvas.width = canvas.clientWidth;
 canvas.height = canvas.clientHeight;
@@ -132,5 +134,5 @@ gl.compileShader(fs);
 // clear framebuffer and render primitives
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.drawArrays(gl.LINE_STRIP, 0, vertices.length / 2);
-
+}
 

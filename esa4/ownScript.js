@@ -1,10 +1,8 @@
-// Get the WebGL context
+window.onload = () => {
+  
 const canvas = document.getElementById('canvas');
-
-// set canvas resolution according to css properties
 canvas.width = canvas.clientWidth;
 canvas.height = canvas.clientHeight;
-
 const gl = canvas.getContext('experimental-webgl');
 
 // pipeline setup + set background color 
@@ -188,4 +186,5 @@ function createIBO(indices) {
   ibo.numberOfElements = indices.length;
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
   return ibo;
+}
 }

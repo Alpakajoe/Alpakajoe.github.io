@@ -1,3 +1,5 @@
+window.onload = () => {
+    
 const canvas = document.getElementById('canvas');
 canvas.width = canvas.clientWidth;
 canvas.height = canvas.clientHeight;
@@ -513,3 +515,5 @@ const gl = canvas.getContext('experimental-webgl');
 // render with TRIANGLES
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.drawArrays(gl.TRIANGLES, 0, vertices.length / 2);
+
+}
