@@ -1,4 +1,4 @@
-window.onload = function() {
+window.onload = () => {
 
   let linesBtn = document.getElementById("linesBtn");
   addEvent(linesBtn, 'click', function() {
