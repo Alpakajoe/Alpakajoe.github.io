@@ -1,6 +1,6 @@
 const canvas = document.getElementById('canvas');
-canvas.width = 600;
-canvas.height = 600;
+canvas.width = canvas.clientWidth;
+canvas.height = canvas.clientHeight;
 const gl = canvas.getContext('experimental-webgl');
     
 // Vertices in array
