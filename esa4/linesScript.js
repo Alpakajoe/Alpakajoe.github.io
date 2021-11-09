@@ -1,6 +1,4 @@
-window.onload = () => {
-
-  const canvas = document.getElementById('canvas');
+ const canvas = document.getElementById('canvas');
   canvas.width = canvas.clientWidth;
   canvas.height = canvas.clientHeight;
 
@@ -285,4 +283,3 @@ window.onload = () => {
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
     return ibo;
   }
-}
