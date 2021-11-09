@@ -55,16 +55,16 @@ gl.linkProgram(prog);
 gl.useProgram(prog);
 
 
-// Enneper
+// Right
 
 const {
-  enneperVertices, enneperIndicesLines, enneperIndicesTriangles,
-} = createenneperSurfaceVertexData();
+  rightVertices, rightIndicesLines, rightIndicesTriangles,
+} = createrightSurfaceVertexData();
 
 // Setup position vertex buffer object.
 const vboPos = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, vboPos);
-gl.bufferData(gl.ARRAY_BUFFER, enneperVertices, gl.STATIC_DRAW);
+gl.bufferData(gl.ARRAY_BUFFER, rightVertices, gl.STATIC_DRAW);
 
 // Bind vertex buffer to attribute variable.
 const posAttrib = gl.getAttribLocation(prog, 'pos');
@@ -75,57 +75,57 @@ gl.enableVertexAttribArray(posAttrib);
 const colAttrib = gl.getAttribLocation(prog, 'col');
 
 // Setup lines index buffer object.
-const enneperIboLines = createIBO(enneperIndicesLines);
+const rightIboLines = createIBO(rightIndicesLines);
 
 // Setup tris index buffer object.
-const enneperIboTriangles = createIBO(enneperIndicesTriangles);
+const rightIboTriangles = createIBO(rightIndicesTriangles);
 
 // Clear framebuffer and render primitives.
 // eslint-disable-next-line no-bitwise
 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-const enneperLinesColor = {
+const rightLinesColor = {
   r: 0.7, g: 0.4, b: 0.5, a: 1,
 };
 
-const enneperTrianglesColor = {
+const rightTrianglesColor = {
   r: 0.8, g: 0.66, b: 0.6, a: 1,
 };
 
-setupIboRendering(colAttrib, enneperIboTriangles, gl.TRIANGLES, enneperTrianglesColor);
-setupIboRendering(colAttrib, enneperIboLines, gl.LINES, enneperLinesColor);
+setupIboRendering(colAttrib, rightIboTriangles, gl.TRIANGLES, rightTrianglesColor);
+setupIboRendering(colAttrib, rightIboLines, gl.LINES, rightLinesColor);
 
-// Torus
+// Left
 
-const { torusVertices, torusIndicesLines, torusIndicesTriangles } = createTorusVertexData();
+const { leftVertices, leftIndicesLines, leftIndicesTriangles } = createleftVertexData();
 
 // Setup position vertex buffer object.
-const torusVboPos = gl.createBuffer();
-gl.bindBuffer(gl.ARRAY_BUFFER, torusVboPos);
-gl.bufferData(gl.ARRAY_BUFFER, torusVertices, gl.STATIC_DRAW);
+const leftVboPos = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, leftVboPos);
+gl.bufferData(gl.ARRAY_BUFFER, leftVertices, gl.STATIC_DRAW);
 
 // Bind vertex buffer to attribute variable.
-const torusPosAttrib = gl.getAttribLocation(prog, 'pos');
-gl.vertexAttribPointer(torusPosAttrib, 3, gl.FLOAT, false, 0, 0);
-gl.enableVertexAttribArray(torusPosAttrib);
+const leftPosAttrib = gl.getAttribLocation(prog, 'pos');
+gl.vertexAttribPointer(leftPosAttrib, 3, gl.FLOAT, false, 0, 0);
+gl.enableVertexAttribArray(leftPosAttrib);
 
 // Setup constant color.
-const torusColAttrib = gl.getAttribLocation(prog, 'col');
-const torusIboLines = createIBO(torusIndicesLines);
-const torusIboTriangles = createIBO(torusIndicesTriangles);
+const leftColAttrib = gl.getAttribLocation(prog, 'col');
+const leftIboLines = createIBO(leftIndicesLines);
+const leftIboTriangles = createIBO(leftIndicesTriangles);
 
-const torusLinesColor = {
+const leftLinesColor = {
  r: 0.8, g: 0.66, b: 0.6, a: 1,
 };
 
-const torusTrianglesColor = {
+const leftTrianglesColor = {
 r: 0.7, g: 0.4, b: 0.5, a: 1,
 };
 
-setupIboRendering(torusColAttrib, torusIboTriangles, gl.TRIANGLES, torusTrianglesColor);
-setupIboRendering(torusColAttrib, torusIboLines, gl.LINES, torusLinesColor);
+setupIboRendering(leftColAttrib, leftIboTriangles, gl.TRIANGLES, leftTrianglesColor);
+setupIboRendering(leftColAttrib, leftIboLines, gl.LINES, leftLinesColor);
 
-function createenneperSurfaceVertexData() {
+function createrightSurfaceVertexData() {
   const _vertices = [];
   const _indicesLines = [];
   const _indicesTriangles = [];
@@ -150,7 +150,7 @@ function createenneperSurfaceVertexData() {
     for (let v = rangeV.min, j = 0; j <= m; j++, v += dv) {
       const iVertex = i * (m + 1) + j;
 
-      // Enneper Surface      
+      // right Surface      
       const x = 6*((a*Math.sin(a)*Math.sin(v))*0.06);
       const y = (((a*(Math.cos(a) + Math.log((Math.tan(v/2))) + b*u))*0.1)+0.9);
       const z = 4*((a*Math.cos(b)*Math.sin(v))*0.01);
@@ -189,13 +189,13 @@ function createenneperSurfaceVertexData() {
   }
 
   return {
-    enneperVertices: new Float32Array(_vertices),
-    enneperIndicesLines: new Uint16Array(_indicesLines),
-    enneperIndicesTriangles: new Uint16Array(_indicesTriangles),
+    rightVertices: new Float32Array(_vertices),
+    rightIndicesLines: new Uint16Array(_indicesLines),
+    rightIndicesTriangles: new Uint16Array(_indicesTriangles),
   };
 }
 
-function createTorusVertexData() {
+function createleftVertexData() {
     const _vertices = [];
     const _indicesLines = [];
     const _indicesTriangles = [];
@@ -220,7 +220,7 @@ function createTorusVertexData() {
       for (let v = rangeV.min, j = 0; j <= m; j++, v += dv) {
         const iVertex = i * (m + 1) + j;
   
-        // Enneper Surface      
+        // right Surface      
         var x = -6*((a*Math.sin(a)*Math.sin(v))*0.06);
         var y = -(((a*(Math.cos(a) + Math.log((Math.tan(v/2))) + b*u))*0.1)-0.9);
         var z = 4*((a*Math.cos(b)*Math.sin(v))*0.01);
@@ -259,9 +259,9 @@ function createTorusVertexData() {
   }
 
   return {
-    torusVertices: new Float32Array(_vertices),
-    torusIndicesLines: new Uint16Array(_indicesLines),
-    torusIndicesTriangles: new Uint16Array(_indicesTriangles),
+    leftVertices: new Float32Array(_vertices),
+    leftIndicesLines: new Uint16Array(_indicesLines),
+    leftIndicesTriangles: new Uint16Array(_indicesTriangles),
   };
 }
 
