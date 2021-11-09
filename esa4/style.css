@@ -2,9 +2,9 @@
     display: flex;
     flex-wrap: wrap;
     max-width: 100px;
-    position: absolute;    
-    right: 31rem;
-    top: 500px;
+    position: absolute;
+    top: 250px;
+    right: 0;
 }
 
 .button-box>* {
@@ -26,4 +26,11 @@
 
 div {
     box-sizing: border-box;
+}
+
+#wrapper {
+    position: relative;
+    margin: auto;
+    height: 600px;
+    width: 900px;
 }
