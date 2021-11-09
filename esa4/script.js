@@ -1,4 +1,4 @@
-window.onload = function() {
+window.onload = () => {
 
   let linesBtn = document.getElementById("linesBtn");
   addEvent(linesBtn, 'click', function() {
@@ -14,7 +14,7 @@ window.onload = function() {
   addEvent(ownBtn, 'click', function() {
       window.location.href = "own.html";
 });
-}
+
 
 function addEvent(el, eventType, handler) {
   if (el.addEventListener) { 
@@ -25,5 +25,4 @@ function addEvent(el, eventType, handler) {
       el['on' + eventType] = handler;
   }
 }
-
-
+}
