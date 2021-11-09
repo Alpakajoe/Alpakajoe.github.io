@@ -1,6 +1,7 @@
 const canvas = document.getElementById('canvas');
 canvas.width = canvas.clientWidth;
 canvas.height = canvas.clientHeight;
+
 const gl = canvas.getContext('experimental-webgl');
 
 // pipeline setup + set background color 
@@ -53,6 +54,9 @@ gl.bindAttribLocation(prog, 0, 'pos');
 gl.linkProgram(prog);
 gl.useProgram(prog);
 
+
+// Enneper
+
 const {
   enneperVertices, enneperIndicesLines, enneperIndicesTriangles,
 } = createenneperSurfaceVertexData();
@@ -81,15 +85,45 @@ const enneperIboTriangles = createIBO(enneperIndicesTriangles);
 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 const enneperLinesColor = {
-  r: 0.8, g: 0.66, b: 0.6, a: 1,
+  r: 0.7, g: 0.4, b: 0.5, a: 1,
 };
 
 const enneperTrianglesColor = {
-  r: 0.7, g: 0.4, b: 0.5, a: 1,
+  r: 0.8, g: 0.66, b: 0.6, a: 1,
 };
 
 setupIboRendering(colAttrib, enneperIboTriangles, gl.TRIANGLES, enneperTrianglesColor);
 setupIboRendering(colAttrib, enneperIboLines, gl.LINES, enneperLinesColor);
+
+// Torus
+
+const { torusVertices, torusIndicesLines, torusIndicesTriangles } = createTorusVertexData();
+
+// Setup position vertex buffer object.
+const torusVboPos = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, torusVboPos);
+gl.bufferData(gl.ARRAY_BUFFER, torusVertices, gl.STATIC_DRAW);
+
+// Bind vertex buffer to attribute variable.
+const torusPosAttrib = gl.getAttribLocation(prog, 'pos');
+gl.vertexAttribPointer(torusPosAttrib, 3, gl.FLOAT, false, 0, 0);
+gl.enableVertexAttribArray(torusPosAttrib);
+
+// Setup constant color.
+const torusColAttrib = gl.getAttribLocation(prog, 'col');
+const torusIboLines = createIBO(torusIndicesLines);
+const torusIboTriangles = createIBO(torusIndicesTriangles);
+
+const torusLinesColor = {
+ r: 0.8, g: 0.66, b: 0.6, a: 1,
+};
+
+const torusTrianglesColor = {
+r: 0.7, g: 0.4, b: 0.5, a: 1,
+};
+
+setupIboRendering(torusColAttrib, torusIboTriangles, gl.TRIANGLES, torusTrianglesColor);
+setupIboRendering(torusColAttrib, torusIboLines, gl.LINES, torusLinesColor);
 
 function createenneperSurfaceVertexData() {
   const _vertices = [];
@@ -99,14 +133,14 @@ function createenneperSurfaceVertexData() {
   const m = 64;
   const n = 24;
 
-  const rangeU = { min: 0.04, max: 4*Math.PI };
+  const rangeU = { min: 0, max: 4*Math.PI };
   const rangeV = { min: 0.01, max: 2.3 };
 
   const du = (rangeU.max - rangeU.min) / n;
   const dv = (rangeV.max - rangeV.min) / m;
 
   const a = 20;
-  const b = 0.1;
+  const b = 0.2;
 
   // Counter for entries in index array.
   let counterLines = 0;
@@ -117,9 +151,9 @@ function createenneperSurfaceVertexData() {
       const iVertex = i * (m + 1) + j;
 
       // Enneper Surface      
-      var x = 6*((a*Math.sin(a)*Math.sin(v))*0.06);
-      var y = (((a*(Math.cos(a) + Math.log((Math.tan(v/2))) + b*u))*0.1)+3);
-      var z = 4*((a*Math.cos(b)*Math.sin(v))*0.01);
+      const x = 6*((a*Math.sin(a)*Math.sin(v))*0.06);
+      const y = (((a*(Math.cos(a) + Math.log((Math.tan(v/2))) + b*u))*0.1)+0.9);
+      const z = 4*((a*Math.cos(b)*Math.sin(v))*0.01);
 
       // Set vertex positions.
       _vertices[iVertex * 3] = x;
@@ -158,6 +192,76 @@ function createenneperSurfaceVertexData() {
     enneperVertices: new Float32Array(_vertices),
     enneperIndicesLines: new Uint16Array(_indicesLines),
     enneperIndicesTriangles: new Uint16Array(_indicesTriangles),
+  };
+}
+
+function createTorusVertexData() {
+    const _vertices = [];
+    const _indicesLines = [];
+    const _indicesTriangles = [];
+  
+    const m = 64;
+    const n = 24;
+  
+    const rangeU = { min: 0, max: 4*Math.PI };
+    const rangeV = { min: 0.01, max: 2.3 };
+  
+    const du = (rangeU.max - rangeU.min) / n;
+    const dv = (rangeV.max - rangeV.min) / m;
+  
+    const a = -20;
+    const b = 0.2;
+  
+    // Counter for entries in index array.
+    let counterLines = 0;
+    let counterTriangles = 0;
+  
+    for (let u = rangeU.min, i = 0; i <= n; i++, u += du) {
+      for (let v = rangeV.min, j = 0; j <= m; j++, v += dv) {
+        const iVertex = i * (m + 1) + j;
+  
+        // Enneper Surface      
+        var x = -6*((a*Math.sin(a)*Math.sin(v))*0.06);
+        var y = -(((a*(Math.cos(a) + Math.log((Math.tan(v/2))) + b*u))*0.1)-0.9);
+        var z = 4*((a*Math.cos(b)*Math.sin(v))*0.01);
+
+      // Set vertex positions.
+      _vertices[iVertex * 3] = x;
+      _vertices[iVertex * 3 + 1] = y;
+      _vertices[iVertex * 3 + 2] = z;
+
+      // Set index.
+      // Line on beam.
+      if (j > 0 && i > 0) {
+        _indicesLines[counterLines++] = iVertex - 1;
+        _indicesLines[counterLines++] = iVertex;
+      }
+
+      // Line on ring.
+      if (j > 0 && i > 0) {
+        _indicesLines[counterLines++] = iVertex - (m + 1);
+        _indicesLines[counterLines++] = iVertex;
+      }
+
+      // Set index.
+      // Two Triangles.
+
+      if (j > 0 && i > 0) {
+        _indicesTriangles[counterTriangles++] = iVertex;
+        _indicesTriangles[counterTriangles++] = iVertex - 1;
+        _indicesTriangles[counterTriangles++] = iVertex - (m + 1);
+
+        _indicesTriangles[counterTriangles++] = iVertex - 1;
+        _indicesTriangles[counterTriangles++] = iVertex - (m + 1) - 1;
+        _indicesTriangles[counterTriangles++] = iVertex - (m + 1);
+      }
+    }
+  }
+
+  return {
+    torusVertices: new Float32Array(_vertices),
+    torusIndicesLines: new Uint16Array(_indicesLines),
+    torusIndicesTriangles: new Uint16Array(_indicesTriangles),
   };
 }
 
