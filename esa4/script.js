@@ -1,6 +1,4 @@
-window.onload = () => {
-
-  let linesBtn = document.getElementById("linesBtn");
+let linesBtn = document.getElementById("linesBtn");
   addEvent(linesBtn, 'click', function() {
       window.location.href = "index.html";
   });
@@ -24,5 +22,4 @@ function addEvent(el, eventType, handler) {
   } else { 
       el['on' + eventType] = handler;
   }
-}
 }
