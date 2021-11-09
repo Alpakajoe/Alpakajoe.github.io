@@ -13,7 +13,7 @@ window.onload = function() {
   let ownBtn = document.getElementById("ownBtn");
   addEvent(ownBtn, 'click', function() {
       window.location.href = "own.html";
-  });
+});
 }
 
 function addEvent(el, eventType, handler) {
