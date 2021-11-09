@@ -2,8 +2,8 @@
 const canvas = document.getElementById('canvas');
 
 // set canvas resolution according to css properties
-canvas.width = canvas.clientWidth;
-canvas.height = canvas.clientHeight;
+canvas.width = 600;
+canvas.height = 600;
 
 const gl = canvas.getContext('experimental-webgl');
 
