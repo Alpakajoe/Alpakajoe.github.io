@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+
+body, html{
+    margin:0;
+    padding:0;
+    font-family: 'Montserrat';
+    color: rgb(233, 233, 233);
+    background-color: rgb(81, 102, 79);
+}
+
+main {
+    font-family: 'Montserrat';
+    text-align: center;
+    color: rgb(255, 255, 255);
+    margin: auto;
+    width: 80%;
+}
+
+header {
+    font-family: 'Montserrat';
+    color:rgb(81, 102, 79);
+    font-size:3em;
+    text-align: center;
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    margin-bottom: 2em;
+    padding-top: 0.7em;
+    padding-bottom: 0.7em;
+    box-shadow: 0 3px 16px 0 rgb(0, 0, 0);
+}
+
+canvas {
+    box-shadow: 0 3px 16px 0 rgb(0, 0, 0);
+}
+
+.button-box {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 100px;
+    position: absolute;
+    top: 250px;
+    right: 0;
+}
+
+.button-box>* {
+    margin-bottom: 5px;    
+    font-family: 'Montserrat';
+    font-weight: lighter;
+    background-color: rgb(81, 102, 79);
+    color: rgb(255, 255, 255);
+    width: 100%;
+    padding: 0.45rem;    
+    border-top-color: rgb(22, 22, 22);
+    border-left-color: rgb(202, 143, 170);    
+    box-shadow: 0 1px 7px 0 rgb(0, 0, 0);
+}
+
+.button-box> :last-child {
+    margin-right: 0;
+}
+
+div {
+    box-sizing: border-box;
+}
+
+#wrapper {
+    position: relative;
+    margin: auto;
+    height: 550px;
+    width: 1050px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+p {
+    margin-bottom: 0.5em
+} 
+
+div {
+    box-sizing: border-box;
+}
+
+math {
+    margin-top: 0.5rem;
+    width: 100%;
+}
+
+.margin-top-1 {
+    margin-top: 1rem;
+}
+
+.margin-top-0-5 {
+    margin-top: 0.5rem;
+}
+
+
+
+span#MathJax-Element-1-Frame,
+span#MathJax-Element-2-Frame {
+    display: block;
+    width: 100%;
+    /* align-items: center; */
+    text-align: center;
+}
+
