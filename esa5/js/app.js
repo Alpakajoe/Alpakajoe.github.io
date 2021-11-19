@@ -145,7 +145,7 @@ var app = (function() {
             fillwireframe = "fillwireframe",
             wireframe = "wireframe";
         createModel(HyperbolicOctahedron, fill, [2, 0.6, -0.5], [0, 0, 0], [0.75, 0.75, 0.75]);
-        createModel(Enneper, fill, [0, 0.4, -1], [0, 0, 0], [0.25, 0.25, 0.25]);
+        createModel(Enneper, fillwireframe, [0, 0.4, -1], [0, 0, 0], [0.25, 0.25, 0.25]);
         createModel(Torus, fill, [-2, 0.6, -0.5], [-1, 0, 1], [0.75, 0.75, 0.75]);
         createModel(Sphere, fillwireframe, [0, 0, 0], [0, 0, 0], [0.8, 0.8, 0.8]);
         createModel(Snail, fillwireframe, [-2, 0.3, 0.25], [0, 0, 0], [0.4, 0.4, 0.4]);
@@ -237,6 +237,13 @@ var app = (function() {
     }
 
     function initEventHandler() {
+
+        window.addEventListener("keydown", function(e) {
+			if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) {
+				e.preventDefault();
+			}
+		}, false); 
+
         // Rotation step.
         var deltaRotate = Math.PI / 36;
         var deltaTranslate = 0.05;
@@ -259,7 +266,7 @@ var app = (function() {
 
             // View transformation with lookAt
             switch (key) {
-                case "KeyW":
+                case "ArrowUp":
                     if (
                         camera_yPos_w <= degree_90 ||
                         (camera_yPos_w < degree_360 && camera_yPos_w > degree_270)
@@ -273,10 +280,10 @@ var app = (function() {
                     }
                     camera.yAngle += deltaRotate;
                     break;
-                case "KeyA":
+                case "ArrowLeft":
                     camera.xAngle -= deltaRotate;
                     break;
-                case "KeyS":
+                case "ArrowDown":
                     if (
                         camera_yPos_s <= degree_90 ||
                         (camera_yPos_s < degree_360 && camera_yPos_s > degree_270)
@@ -290,7 +297,7 @@ var app = (function() {
                     }
                     camera.yAngle -= deltaRotate;
                     break;
-                case "KeyD":
+                case "ArrowRight":
                     camera.xAngle += deltaRotate;
                     break;
             }
@@ -312,18 +319,22 @@ var app = (function() {
 
             // Camera move and orbit.
             switch (key) {
-                case "KeyC":
-                    // Orbit camera.
-                    camera.zAngle += sign * deltaRotate;
+                case "KeyA":
+					camera.eye[0] += - 1 * deltaTranslate;
+					camera.center[0] += - 1 * deltaTranslate;
                     break;
-                case "KeyH":
-                    // Move camera up and down.
-                    camera.eye[1] += sign * deltaTranslate;
+				case "KeyD":
+					camera.eye[0] += 1 * deltaTranslate;
+					camera.center[0] += 1 * deltaTranslate;
                     break;
-                case "KeyZ":
-                    // Camera distance to center.
-                    camera.distance += sign * deltaTranslate;
+                case"KeyW":
+					camera.eye[1] += 1 * deltaTranslate;
+					camera.center[1] += 1 * deltaTranslate;
                     break;
+                case "KeyS":
+                    camera.eye[1] += - 1 * deltaTranslate;
+					camera.center[1] += - 1 * deltaTranslate;
+                    break;           
                 case "NumpadSubtract":
                 case "Slash":
                     // Camera fovy in radian.
@@ -334,9 +345,21 @@ var app = (function() {
                     // Camera fovy in radian.
                     camera.fovy -= sign * 5 * Math.PI / 180;
                     break;
-                case "KeyB":
-                    // Camera near plane dimensions.
-                    camera.lrtb += sign * 0.1;
+                case "Shift":
+                    if (camera.eye[1] > .84 || !cameraLocked) {
+                    camera.eye[1] += -1 * deltaTranslate;
+                    }
+                    //console.log(camera.eye[1]);
+                    break;
+
+                case "KeyQ":
+                    if (sign >= 0) {
+                    camera.distance += 1 * deltaTranslate;
+                    } else {
+                        if (camera.distance >1) {
+                            camera.distance += -1 * deltaTranslate;
+                        } 
+                    }
                     break;
             }
 
