@@ -33,7 +33,7 @@ var app = (function() {
         up: [0, 1, 0],
         // Opening angle given in radian.
         // radian = degree*2*PI/360.
-        fovy: 0.8726646259971647,//60.0 * Math.PI / 180,
+        fovy: 60.0 * Math.PI / 180,
         // Camera near plane dimensions:
         // value for left right top bottom in projection.
         lrtb: 2.0,
@@ -44,7 +44,7 @@ var app = (function() {
         // Projection types: ortho, perspective, frustum.
         projectionType: "perspective",
         // Angle to X-Axis
-        xAngle: -2.007128639793478,
+        xAngle: -1.4,
         //xAngle: 0,
         // Angle to y-Axis
         //yAngle: 0,
@@ -78,11 +78,6 @@ var app = (function() {
         gl.viewportHeight = canvas.height;
     }
 
-    /**
-     * Init pipeline parameters that will not change again. 
-     * If projection or viewport change, their setup must
-     * be in render function.
-     */
     function initPipline() {
         gl.clearColor(0.22, 0.22, 0.22, 1);
 
@@ -120,13 +115,6 @@ var app = (function() {
         gl.useProgram(prog);
     }
 
-    /**
-     * Create and init shader from source.
-     * 
-     * @parameter shaderType: openGL shader type.
-     * @parameter SourceTagId: Id of HTML Tag with shader source.
-     * @returns shader object.
-     */
     function initShader(shaderType, SourceTagId) {
         var shader = gl.createShader(shaderType);
         var shaderSource = document.getElementById(SourceTagId).text;
@@ -151,8 +139,6 @@ var app = (function() {
 
         prog.colorUniform = gl.getUniformLocation(prog, "uColor");
     }
-
-    // ### Start: ESA06
     const fill = "fill",
         fillwireframe = "fillwireframe",
         wireframe = "wireframe";
@@ -163,7 +149,7 @@ var app = (function() {
         color: [205 / 255, 220 / 255, 57 / 255, 1],
         translate: [0, 0, 0],
         rotate: [0, 0, 0],
-        scale: [0.6, 0.6, 0.5]
+        scale: [0.7, 0.7, 0.4]
     };
 
     let plane = {
@@ -237,18 +223,7 @@ var app = (function() {
 
         interactiveModel = models[0];
     }
-    // ### End: ESA06
 
-    /**
-     * Create model object, fill it and push it in models array.
-     * 
-     * @parameter geometryname: string with name of geometry.
-     * @parameter fillstyle: wireframe, fill, fillwireframe.
-     * @parameter color: array with values of colors (r,g,b,a).
-     * @parameter translate: array with values of positions (x,y,z).
-     * @parameter rotate: array with values of rotate (x,y,z).
-     * @parameter scale: array with values of scale (x,y,z).
-     */
     function createModel(geometryname, fillstyle, color, translate, rotate, scale) {
         var model = {};
         model.fillstyle = fillstyle;
@@ -259,9 +234,6 @@ var app = (function() {
         models.push(model);
     }
 
-    /**
-     * Set scale, rotation and transformation for model.
-     */
     function initTransformations(model, translate, rotate, scale) {
         // Store transformation vectors.
         model.translate = translate;
