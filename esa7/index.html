@@ -1,0 +1,50 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name=" viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="style.css" />
+    <script src="./js/ext/index.js" type="module"></script>
+        <script src="./js/app.js" type="module"></script>
+        <script type="x-shader/x-vertex" id="vertexshader">
+            precision mediump float;
+			attribute vec3 aPosition;
+			attribute vec3 aNormal;
+			uniform mat4 uPMatrix;
+			uniform mat4 uMVMatrix;
+			uniform mat3 uNMatrix;
+			uniform vec4 uColor;
+			varying vec4 vColor;
+			void main(){
+				gl_Position = uPMatrix * uMVMatrix * vec4(aPosition, 1.0);
+				vec3 tNormal = uNMatrix * aNormal;
+				vColor = uColor;
+            }
+        </script>
+
+        <script type="x-shader/x-fragment" id="fragmentshader">
+            precision mediump float;
+            varying vec4 vColor;
+            void main() {
+            gl_FragColor = vec4(gl_FragCoord.z, gl_FragCoord.z, gl_FragCoord.z, 1.0);
+            }
+        </script>
+
+    <title>ESA 7 - Z-Buffer Visualisierung</title>
+</head>
+
+    <body>
+        <header>ESA 7 - Z-Buffer Visualisierung</header>
+        <main>
+            <div id="wrapper">
+                <div>
+                    <canvas id="canvas" width="750" height="550"></canvas>
+                </div>
+            </div>
+                <h3>Interaction</h3>                
+                <strong>W/S</strong> - move the camera in y-direction<br>
+                <strong>A/D</strong> - move the camera in x-direction<br>                
+        </main>
+    </body>
+</html>
