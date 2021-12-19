@@ -1,0 +1,154 @@
+<!DOCTYPE html5>
+<html>
+
+<!-- ### Start: ESA08 -->
+
+<head>
+	<meta charset="utf-8">
+	<meta name=" viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<title>ESA 8 - Lichter auf Kreisbahn mit Toon Shading</title>
+	<link rel="stylesheet" href="style.css" />
+	<script src="./js/ext/gl-matrix.js"></script>
+	<script type="module" src="./js/app.js"></script>
+
+	<script type="x-shader/x-vertex" id="vertexshader">
+		attribute vec3 aPosition;
+			attribute vec3 aNormal;
+
+			uniform mat4 uPMatrix;
+			uniform mat4 uMVMatrix;
+			uniform mat3 uNMatrix;
+
+			varying vec3 vNormal;
+			varying vec4 vPosition;
+
+			void main(){
+				// Calculate vertex position in eye coordinates.
+				vec4 tPosition = uMVMatrix * vec4(aPosition, 1.0);
+				// Calculate projektion.
+				gl_Position = uPMatrix * tPosition;
+
+				vec3 tNormal = normalize(uNMatrix * aNormal);
+
+				vPosition = tPosition;
+				vNormal = tNormal;
+			}
+		</script>
+	<script type="x-shader/x-fragment" id="fragmentshader">
+		precision mediump float;
+
+			varying vec3 vNormal;
+			varying vec4 vPosition;
+			
+			// Material.
+			struct PhongMaterial {
+				vec3 ka;
+				vec3 kd;
+				vec3 ks;
+				float ke;
+			};
+			uniform PhongMaterial material;
+
+			// Ambient light.
+			uniform vec3 ambientLight;
+
+			// Pointlights.
+			const int MAX_LIGHT_SOURCES = 8;
+			struct LightSource {
+				bool isOn;
+				vec3 position;
+				vec3 color;
+			};
+			uniform LightSource light[MAX_LIGHT_SOURCES];
+
+			// Phong illumination for single light source,
+			// no ambient light.
+			vec3 phong(vec3 surfacePointVector, vec3 normalDirection, vec3 viewDirection, LightSource light) {
+
+				vec3 LightColor = light.color;
+
+				vec3 lightDirection = normalize(light.position - surfacePointVector);
+				vec3 lightReflection = reflect(-lightDirection, normalDirection);
+
+                float intensityProduct = dot(lightDirection,normalDirection);
+				float intensityScalar = max( intensityProduct, 0.0);
+				float reflectionScalar = max( dot(lightReflection,viewDirection), 0.0);
+                float nvProduct = dot(normalDirection,viewDirection);
+                float nvScalar = max( nvProduct, 0.0);
+                
+				float _UnlitOutlineThickness = 0.4;
+                float _LitOutlineThickness = 0.1;	
+                float _DiffuseThreshold = 0.05;	
+                float _OutlineColor = 0.0;	
+				
+				// higher priority: outlines
+                
+				// mit outline
+				if (mix(_UnlitOutlineThickness, _LitOutlineThickness, nvScalar) >nvScalar) {
+					return vec3(_OutlineColor); 
+                } else {
+                    // low priority: diffuse illumination (four brightness levels)
+                    if (intensityScalar > 0.95)
+                        intensityScalar = 1.0;
+                    else if (intensityScalar > 0.5)
+                        intensityScalar=0.7;
+                    else if (intensityScalar > _DiffuseThreshold)
+                        intensityScalar = 0.35;
+                    else
+                        intensityScalar += 0.05;
+
+                    // highest priority: highlights
+                    if (intensityProduct > 0.0 && reflectionScalar > 0.7 ) {
+                        reflectionScalar = 0.85;
+                    }
+                }
+
+				vec3 diffuse = material.kd * LightColor* intensityScalar;
+                vec3 specular = material.ks * LightColor * pow(reflectionScalar, material.ke);
+
+				return diffuse + specular;
+			}
+
+			// Phong illumination for multiple light sources
+			vec3 phong(vec3 surfacePointVector, vec3 normalDirection, vec3 viewDirection) {
+
+				// Calculate ambient light.
+				vec3 result = material.ka * ambientLight;
+
+				// Add light from all light sources.
+				for(int j=0; j < MAX_LIGHT_SOURCES; j++){ 
+					if(light[j].isOn){ 
+						result +=phong(surfacePointVector, normalDirection, viewDirection, light[j]); 
+					} 
+				} 
+				return result; 
+			}
+
+			void main() {
+				// Calculate view vector.
+				vec3 viewDirection = normalize(-vPosition.xyz);
+
+				vec3 vNormal = normalize(vNormal);
+
+				gl_FragColor = vec4( phong(vPosition.xyz, vNormal, viewDirection), 1.0);
+			}
+		</script>
+</head>
+<body>
+	<header>ESA 8 - Lichter auf Kreisbahn mit Toon Shading</header>
+	<main>
+		<div id="wrapper">
+			 <canvas id="canvas" style="border:2px solid #1c271b;" height="500px" width="700px"></canvas>
+			 <div class="button-box">
+				<button id="lights">Lights</button>
+				<button id="toon-mo">Outlines</button>
+				<button id="toon-oo">No Outlines</button>
+			</div>
+		</div>
+			<h3>Interaction</h3>                
+			<strong>L</strong> - move the lights<br>     
+	</main>
+</body>
+</html>
