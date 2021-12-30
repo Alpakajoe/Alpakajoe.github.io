@@ -1,0 +1,58 @@
+<!DOCTYPE html5>
+<html lang="de">
+    <head>
+        <meta charset="UTF-8">
+        <script src="./js/ext/gl-matrix.js"></script>
+		<script src="./js/torus.js"></script>
+		<script src="./js/app.js"></script>
+		<link rel="stylesheet" href="style.css" />
+		<title>ESA 9 - Torustextur</title>
+		<script type="x-shader/x-vertex" id="vertexshader">
+			attribute vec3 aPosition;
+			attribute vec3 aNormal;
+			attribute vec2 aTextureCoord;
+			
+			uniform mat4 uPMatrix;
+			uniform mat4 uMVMatrix;
+			uniform mat3 uNMatrix;
+			
+			varying vec2 vTextureCoord;
+			
+			void main(){
+				// Calculte vertex position in eye coordinates. 
+				vec4 tPosition = uMVMatrix * vec4(aPosition, 1.0);
+				// Calculate projektion.
+				gl_Position = uPMatrix * tPosition;
+			
+				vec3 tNormal = normalize(uNMatrix * aNormal);
+				
+				vTextureCoord = aTextureCoord;		
+			}
+		</script>
+		<script type="x-shader/x-fragment" id="fragmentshader">
+			precision mediump float;
+			
+			uniform sampler2D uTexture;
+			
+			varying vec2 vTextureCoord;
+			
+			void main() {
+				gl_FragColor = texture2D(uTexture, vTextureCoord);
+			}			
+		</script>
+    </head>
+    <body onload="app.start()">
+		<header>ESA 9 - Torustextur</header>
+			<main>
+				<canvas id="canvas" style="border:2px solid #1c271b;" height="500px" width="700px"></canvas>
+				<h3>Interaction</h3>                
+				<strong>W/S</strong> - move the camera in y-direction<br>
+                <strong>A/D</strong> - move the camera in x-direction<br>    
+				<strong>Q/R</strong> - move the camera in z-direction<br>       
+			</main>               
+			<div style="text-align: center;"><br><br>
+				<a href="https://bit.ly/3zb5Ch6">Sprinkles Texture</a>
+			</div>
+        </div>
+    </body>
+</html>
